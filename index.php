@@ -1,9 +1,10 @@
 <?php
   class Elevator
   {
+    const MAX_WEIGHT = 480;
+
     private $doorStatus = 'close';
     private $currentFloor = 5;
-    const MAX_WEIGHT = 480;
 
     private function openDoor()
     {
@@ -25,7 +26,7 @@
       return 'call dispatcher';
     }
 
-    public function moveElevator($floor, $weight)
+    public function move($floor, $weight)
     {
       $weightRes = $this->checkWeight($weight);
       
@@ -56,7 +57,7 @@
   }
 
 
-  $moveElevator = new Elevator();
-  echo $Elevator->move(4, 200);
+  $elevator = new Elevator();
+  echo $elevator->move(4, 200);
 
 ?>
