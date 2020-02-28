@@ -4,7 +4,8 @@
 	{
 
 		private $door;
-		private $elevator = 'elevator';
+		private $currentFloor = 5;
+		const maxWeight = 480;
 
 		private function openDoor()
 		{
@@ -18,33 +19,33 @@
 
 		private function checkWeight($weight)
 		{
-			if($weight<480){
-				$result = 'ok';
-			}else{
-				$result = 'overweight';
-			}
-			return $result;
+			return $weight < 480 ? 'ok' : 'overweight';
 		}
 
 		public function help()
 		{
-			$status = "call dispatcher";
+			$status = 'call dispatcher';
 			return $status;
 		}
 
-		public function move($direction, $numFloors, $weight)
+		public function move($numFloors, $weight)
 		{
-			if($direction == 'up' or $direction == 'down'){
-				$weightRes = $this->checkWeight($weight);
-				if($weightRes=='ok'){
-					$this->closeDoor();
-					$result = 'Move the '.$this->elevator.' '.$direction.' '.$numFloors.' floors.';
-					$this->openDoor();
-				}else{
-					$result = $weightRes;
+			$weightRes = $this->checkWeight($weight);
+			if ($weightRes=='ok') {
+				$this->closeDoor();
+				$direction = $this->currentFloor <=> $numFloors;
+				if($direction == 0) {
+					$result = 'you are already on this floor';
+				} elseif ($direction == -1) {
+					$countFlore = $numFloors - $this->currentFloor;
+					$result = 'Move the elevator up '.$countFlore.' floors.';
+				} elseif ($direction == 1) {
+					$countFlore = $this->currentFloor - $numFloors;
+					$result = 'Move the elevator down '.$countFlore.' floors.';
 				}
-			}else{
-				$result = 'Wrong direction!';
+				$this->openDoor();
+			} else {
+				$result = $weightRes;
 			}
 
 			return $result;
@@ -53,6 +54,6 @@
 
 
 	$moveElevator = new Elevator;
-	echo $moveElevator->move('up',4,200);
+	echo $moveElevator->move(5,200);
 
 ?>
