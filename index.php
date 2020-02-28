@@ -23,7 +23,7 @@
     public function help()
     {
       return 'call dispatcher';
-	}
+    }
 
     public function move($floor, $weight)
     {
@@ -45,7 +45,6 @@
       } else {
         $result = $weightRes;
       }
-
       return $result;
     }
   }
